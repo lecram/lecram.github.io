@@ -13,8 +13,9 @@
     <br />
   </div>
   <div id="content">
-<h1 id="h1">Useful POSIX Recipes</h1>
-<h2 id="h26">1. Spawn Process (a.k.a. fork-exec)</h2>
+    <h1>Useful POSIX Recipes</h1>
+    <p id="timestamp">Last updated on 2015-04-25 12:09:48 -0300</p>
+<h2 id="h3">1. Spawn Process (a.k.a. fork-exec)</h2>
 <p><a href="http://en.wikipedia.org/wiki/Fork_(system_call)">http://en.wikipedia.org/wiki/Fork_(system_call)</a></p>
 <pre>
 #include &lt;unistd.h&gt;
@@ -35,7 +36,7 @@ spawn(char *const argv[])
     }
 }
 </pre>
-<h2 id="h410">2. Read Output of Child Process</h2>
+<h2 id="h387">2. Read Output of Child Process</h2>
 <p><a
 href="http://stackoverflow.com/questions/2605130/redirecting-exec-output-to-a-buffer-or-file">http://stackoverflow.com/questions/2605130/redirecting-exec-output-to-a-buffer-or-file</a></p>
 <pre>
@@ -57,7 +58,7 @@ if (fork() == 0) {
     }
 }
 </pre>
-<h2 id="h1035">3. List Directory</h2>
+<h2 id="h1012">3. List Directory</h2>
 <pre>
 #include &lt;stdio.h&gt;
 #include &lt;dirent.h&gt;

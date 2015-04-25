@@ -13,8 +13,9 @@
     <br />
   </div>
   <div id="content">
-<h1 id="h1">Useful Lua Recipes</h1>
-<h2 id="h25">1. Iterators Via Coroutines</h2>
+    <h1>Useful Lua Recipes</h1>
+    <p id="timestamp">Last updated on 2015-04-25 12:09:48 -0300</p>
+<h2 id="h4">1. Iterators Via Coroutines</h2>
 <pre>
 local function count(n)
     return coroutine.wrap(
@@ -30,7 +31,7 @@ for i in count(10) do
     print(i)
 end
 </pre>
-<h2 id="h275">2. Skew Heap</h2>
+<h2 id="h254">2. Skew Heap</h2>
 <p><a
 href="http://lua-users.org/lists/lua-l/2007-11/msg00375.html">http://lua-users.org/lists/lua-l/2007-11/msg00375.html</a></p>
 <pre>
@@ -67,7 +68,7 @@ while q ~= nil do
     q = qpop(q)
 end
 </pre>
-<h2 id="h914">3. Sleep</h2>
+<h2 id="h893">3. Sleep</h2>
 <p><a href="http://luajit.org/ext_ffi_tutorial.html">http://luajit.org/ext_ffi_tutorial.html</a></p>
 <pre>
 local ffi = require &quot;ffi&quot;
@@ -88,7 +89,7 @@ else
   end
 end
 </pre>
-<h2 id="h1259">4. Parsing List of Integers</h2>
+<h2 id="h1238">4. Parsing List of Integers</h2>
 <pre>
 local function get_nums(str)
     local nums = {}
@@ -100,7 +101,7 @@ end
 
 local w, h, x, y = get_nums(&quot;100 234 -20 0&quot;)
 </pre>
-<h2 id="h1508">5. Converting UTF-8 String to Code Sequence</h2>
+<h2 id="h1487">5. Converting UTF-8 String to Code Sequence</h2>
 <p><a href="http://lua-users.org/wiki/LuaUnicode">http://lua-users.org/wiki/LuaUnicode</a></p>
 <pre>
 local function utf8to32(utf8str)

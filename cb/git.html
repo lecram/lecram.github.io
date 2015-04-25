@@ -13,8 +13,9 @@
     <br />
   </div>
   <div id="content">
-<h1 id="h1">Useful Git Recipes</h1>
-<h2 id="h25">1. Basic Commands</h2>
+    <h1>Useful Git Recipes</h1>
+    <p id="timestamp">Last updated on 2015-04-25 12:09:48 -0300</p>
+<h2 id="h4">1. Basic Commands</h2>
 <p>Clone repository:</p>
 <pre>
 $ git clone https://foo.net/bar
@@ -59,7 +60,7 @@ $ git merge
 <pre>
 $ git pull [remote] # equivalent to `git fetch [remote]; git merge`
 </pre>
-<h2 id="h950">2. Remote repositories</h2>
+<h2 id="h929">2. Remote repositories</h2>
 <p>Show remotes:</p>
 <pre>
 $ git remote -v
@@ -76,7 +77,7 @@ $ git remote rm foo
 <pre>
 $ git remote rename foo bar
 </pre>
-<h2 id="h1172">3. Tags</h2>
+<h2 id="h1151">3. Tags</h2>
 <p>There are two types of tags: lightweight and annotated.</p>
 <p>A lightweight tag is just a named pointer to a specific commit.</p>
 <p>Annotated tags have commit-like metadata (date, author,
@@ -109,7 +110,7 @@ $ git push [remote] v1.4
 <pre>
 $ git push [remote] --tags
 </pre>
-<h2 id="h2083">4. Branches</h2>
+<h2 id="h2062">4. Branches</h2>
 <p>List branches:</p>
 <pre>
 $ git branch # current working branch is shown with a star (*)
@@ -144,7 +145,7 @@ $ git merge issue33    # add changes from branch to master
 <pre>
 $ git branch -d issue33
 </pre>
-<h2 id="h2815">5. Patches</h2>
+<h2 id="h2794">5. Patches</h2>
 <p>A simple patch file can be created with diff:</p>
 <pre>
 $ git diff &gt; foo.patch
@@ -167,7 +168,7 @@ command:</p>
 <pre>
 $ git am bar.patch
 </pre>
-<h2 id="h3490">6. Archives</h2>
+<h2 id="h3469">6. Archives</h2>
 <p>Create archive of HEAD:</p>
 <pre>
 $ git archive -o latest.zip HEAD
@@ -176,7 +177,7 @@ $ git archive -o latest.zip HEAD
 <pre>
 $ git archive --prefix=git-1.4.0/ -o git-1.4.0.tar.gz v1.4.0
 </pre>
-<h2 id="h3670">7. Hooks</h2>
+<h2 id="h3649">7. Hooks</h2>
 <p>Take some action after receiving a push on master:</p>
 <pre>
 #!/bin/sh

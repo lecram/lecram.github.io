@@ -13,8 +13,9 @@
     <br />
   </div>
   <div id="content">
-<h1 id="h1">Useful Shell Recipes</h1>
-<h2 id="h27">1. For Loop</h2>
+    <h1>Useful Shell Recipes</h1>
+    <p id="timestamp">Last updated on 2015-04-25 12:09:48 -0300</p>
+<h2 id="h4">1. For Loop</h2>
 <pre>
 for i in {1..10}
 do
@@ -27,7 +28,7 @@ do
     echo $i
 done
 </pre>
-<h2 id="h133">2. Create Text File Interactively</h2>
+<h2 id="h110">2. Create Text File Interactively</h2>
 <pre>
 $ cat &gt; foo
 Enter
@@ -36,7 +37,7 @@ Here
 &lt;Ctrl+D&gt;
 $
 </pre>
-<h2 id="h216">3. Create Text File From Script</h2>
+<h2 id="h193">3. Create Text File From Script</h2>
 <pre>
 cat &gt; foo &lt;&lt; EOF
 Enter
@@ -44,14 +45,14 @@ Text
 Here
 EOF
 </pre>
-<h2 id="h295">4. Read Stream Line by Line</h2>
+<h2 id="h272">4. Read Stream Line by Line</h2>
 <pre>
 while read line
 do
     echo $line
 done &lt; stream
 </pre>
-<h2 id="h381">5. Named Pipe (a.k.a. FIFO)</h2>
+<h2 id="h358">5. Named Pipe (a.k.a. FIFO)</h2>
 <pre>
 $ mkfifo my_pipe
 $ gzip -9 -c &lt; my_pipe &gt; out.gz &amp;

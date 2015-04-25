@@ -13,8 +13,9 @@
     <br />
   </div>
   <div id="content">
-<h1 id="h1">Useful C Recipes</h1>
-<h2 id="h23">1. About This Document</h2>
+    <h1>Useful C Recipes</h1>
+    <p id="timestamp">Last updated on 2015-04-25 12:09:48 -0300</p>
+<h2 id="h4">1. About This Document</h2>
 <p>This is a collection of useful idioms and tricks that can be used
 while coding in C. These patterns were collected while writing and
 reading real world code.</p>
@@ -27,7 +28,7 @@ may be harmful, making the code less readable and harder to interface
 with tools and programs.</p>
 <p>For the sake of brevity, the code presented here lacks proper
 error checking.</p>
-<h2 id="h716">2. Quickly Checking System Macro Value</h2>
+<h2 id="h697">2. Quickly Checking System Macro Value</h2>
 <p>It's often convenient to know the expansion of a macro defined by
 a system header. The naive way to do this is creating a small C
 program with a main function that simply prints the value of the
@@ -48,7 +49,7 @@ BUFSIZ
 </pre>
 <p>Note that in this example we have typed &lt;CTRL+D&gt; after
 typing &quot;BUFSIZ&quot;+&lt;RETURN&gt;.</p>
-<h2 id="h1603">3. Dynamic Typing with Struct Tagging</h2>
+<h2 id="h1584">3. Dynamic Typing with Struct Tagging</h2>
 <p>Useful to build simple object systems.</p>
 <p>This exploits the fact that a struct can be casted to the type of
 its first field (and vice versa):</p>
@@ -138,7 +139,7 @@ typedef struct { Color c; Point o; double r; } Circle;
 Rect rect = {RED, P1, P2};
 Circle circle = (Circle) rect;      /* a red circle centered at P1 */
 </pre>
-<h2 id="h3719">4. Dynamic Contiguous Homogeneous Array</h2>
+<h2 id="h3700">4. Dynamic Contiguous Homogeneous Array</h2>
 <p>A contiguous array is the most simple and efficient collection
 structure for homogeneous data. C has great builtin support for fixed
 sized arrays. Sometimes it's convenient to have an array that grows
@@ -196,11 +197,11 @@ Item pop(Stack *stack) {
     return stack-&gt;items[--stack-&gt;length];
 }
 </pre>
-<h2 id="h6233">5. Overloaded Array (TODO)</h2>
+<h2 id="h6214">5. Overloaded Array (TODO)</h2>
 <p>memcpy size_t (cf. libalt)</p>
-<h2 id="h6290">6. Circular Buffer (TODO)</h2>
+<h2 id="h6271">6. Circular Buffer (TODO)</h2>
 <p>(cf. coral's Buffer)</p>
-<h2 id="h6339">7. Stable Sort</h2>
+<h2 id="h6320">7. Stable Sort</h2>
 <p><a href="http://stackoverflow.com/a/6105590">http://stackoverflow.com/a/6105590</a></p>
 <p>The standard qsort() function from &lt;stdlib.h&gt; is not stable,
 but we can force stability by changing the comparison function to
