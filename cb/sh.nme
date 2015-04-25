@@ -1,0 +1,57 @@
+= Useful Shell Recipes
+
+
+== For Loop
+
+{{{
+for i in {1..10}
+do
+    echo $i
+done
+
+N=10
+for i in `seq 1 $N`
+do
+    echo $i
+done
+}}}
+
+
+== Create Text File Interactively
+
+{{{
+$ cat > foo
+Enter
+Text
+Here
+<Ctrl+D>
+$
+}}}
+
+== Create Text File From Script
+
+{{{
+cat > foo << EOF
+Enter
+Text
+Here
+EOF
+}}}
+
+== Read Stream Line by Line
+
+{{{
+while read line
+do
+    echo $line
+done < stream
+}}}
+
+== Named Pipe (a.k.a. FIFO)
+
+{{{
+$ mkfifo my_pipe
+$ gzip -9 -c < my_pipe > out.gz &
+$ cat file > my_pipe
+$ rm my_pipe
+}}}

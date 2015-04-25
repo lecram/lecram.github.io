@@ -1,0 +1,235 @@
+= Useful C Recipes
+
+
+== About This Document
+
+This is a collection of useful idioms and tricks that can be used while coding
+in C. These patterns were collected while writing and reading real world code.
+
+While this document has a focus on the practical use of the C language, some
+effort was made to make it a little more didactical than real world code. In
+particular, typedefs were used extensively to isolate the definition of types
+not relevant to the concept being explored. Please note that the excessive use
+of typedef in practice may be harmful, making the code less readable and harder
+to interface with tools and programs.
+
+For the sake of brevity, the code presented here lacks proper error checking.
+
+
+== Quickly Checking System Macro Value
+
+It's often convenient to know the expansion of a macro defined by a system
+header. The naive way to do this is creating a small C program with a main
+function that simply prints the value of the macro. This requires that we create
+a new file, compile it and run the executable.
+
+The best way to print a macro expansion is by using the C preprocessor (cpp).
+By default, cpp reads from stdin and writes to stdout. This means we can type
+directives and macros and get the resulting expansions immediatelly. cpp will
+usually print a lot of uninteresting information, specially when processing
+~#include directives, so we may want to pipe it to tail.
+
+As an example, let's check the value of <stdio.h>'s BUFSIZ:
+
+{{{
+$ cpp | tail -1
+#include <stdio.h>
+BUFSIZ
+8192
+}}}
+
+Note that in this example we have typed <CTRL+D> after typing "BUFSIZ"+<RETURN>.
+
+
+== Dynamic Typing with Struct Tagging
+
+Useful to build simple object systems.
+
+This exploits the fact that a struct can be casted to the type of its first
+field (and vice versa):
+
+{{{
+typedef struct { int r, g, b; } Color;
+Color c1 = {R, G, B};
+int i = (int) c1;           /* i = R; */
+Color c2 = (Color) i;       /* c2 = {R, ?, ?} */
+}}}
+
+Defining types:
+
+{{{
+typedef enum {INTEGER, REAL} Tag;
+typedef Tag *Obj;
+typedef struct {
+    Tag tag;
+    int val;
+} Integer;
+typedef struct {
+    Tag tag;
+    double val;
+} Real;
+}}}
+
+Creating objects:
+
+{{{
+Integer *new_integer(int val) {
+    Integer *i = malloc(sizeof(*i));
+    i->tag = INTEGER;
+    i->val = val;
+    return i;
+}
+Real *new_real(double val) {
+    Real *r = malloc(sizeof(*r));
+    r->tag = REAL;
+    r->val = val;
+    return r;
+}
+}}}
+
+Operator overloading via case (single C function):
+
+{{{
+void print_object(Obj obj) {
+    Tag tag = *obj;
+    switch (tag) {
+        case INTEGER:
+            printf("%d", ((Integer *) obj)->val);
+            break;
+        case REAL:
+            printf("%f", ((Real *) obj)->val);
+            break;
+    }
+}
+}}}
+
+Operator overloading via explicit dispatch table (a.k.a. vtable):
+
+{{{
+void print_integer(Obj obj) {
+    printf("%d", ((Integer *) obj)->val);
+}
+void print_real(Obj obj) {
+    printf("%f", ((Real *) obj)->val);
+}
+typedef void (*Func) (Obj obj);
+static Func print[] = {print_integer, print_real};
+void print_object(Obj obj) {
+    Tag tag = *obj;
+    print[tag](obj);
+}
+}}}
+
+An object can carry more information than just a type tag. For example, to allow
+reference counting:
+
+{{{
+typedef enum {INTEGER, REAL} Tag;
+typedef struct {Tag tag; unsigned refc;} Header;
+typedef Header *Obj;
+typedef struct {
+    Header header;
+    int val;
+} Integer;
+typedef struct {
+    Header header;
+    double val;
+} Real;
+}}}
+
+Note that we can also do casts between two different structs that share the same
+prefix:
+
+{{{
+typedef struct { Color c; Point ul, br; } Rect;
+typedef struct { Color c; Point o; double r; } Circle;
+Rect rect = {RED, P1, P2};
+Circle circle = (Circle) rect;      /* a red circle centered at P1 */
+}}}
+
+
+== Dynamic Contiguous Homogeneous Array
+
+A contiguous array is the most simple and efficient collection structure for
+homogeneous data. C has great builtin support for fixed sized arrays. Sometimes
+it's convenient to have an array that grows (and shrinks) as necessary. The
+function realloc() makes this very simple. The basic idea is to multiply the
+array size by a constant every time it needs more space.
+
+The exact value of the constant doesn't affect assymtoptic complexity. In
+practice, many programs use 2, growing the array by doubling its size. However,
+this choice must take into consideration the behavior of reallocators. In some
+environments/languages, reallocations cannot be done in-place (i.e. without
+changing address). This limitation causes a "walking pointer" when doubling a
+buffer's size. Using a Fibonacci sequence for size will circunvent this problem,
+assuming the reallocator is able to move overlapping data (as in memmove()). If
+copying overlapping buffers is not possible (as in memcpy()), then the Padovan
+sequence must be used. In modern GNU/Linux environments, the realloc() function
+doesn't seem to have any of these limitations, so the choice of growing pattern
+is only determined by the time/memory trade-off: smaller growth factors reduce
+memory waste, greater growth factors reduce time waste.
+
+Sometimes it's also nice to shrink the array to free unused memory. The choice
+of whether to do this and how to do it is dependent on the use pattern that the
+array is expected to have.
+
+With these concepts in mind, we can implement a typical stack. It shrinks when
+the amount of unused space reachs about the same size of the used space.
+
+{{{
+typedef int Item; /* could be anything instead of int */
+typedef struct {
+    unsigned bulk;
+    unsigned length;
+    Item *items;
+} Stack;
+
+Stack *new_stack(unsigned init_bulk) {
+    Stack *stack = malloc(sizeof(*stack));
+    stack->bulk = init_bulk;
+    stack->length = 0;
+    stack->items = malloc(init_bulk * sizeof(*stack->items));
+    return stack;
+}
+void push(Stack *stack, Item item) {
+    if (stack->length == stack->bulk) {
+        stack->bulk *= 2;
+        stack->items = realloc(stack->items, stack->bulk * sizeof(*stack->items));
+    }
+    stack->items[stack->length++] = item;
+}
+Item pop(Stack *stack) {
+    if (stack->length == stack->bulk / 2) {
+        stack->bulk = stack->length;
+        stack->items = realloc(stack->items, stack->bulk * sizeof(*stack->items));
+    }
+    return stack->items[--stack->length];
+}
+}}}
+
+
+== Overloaded Array (TODO)
+
+memcpy size_t (cf. libalt)
+
+
+== Circular Buffer (TODO)
+
+(cf. coral's Buffer)
+
+== Stable Sort
+
+[[http://stackoverflow.com/a/6105590]]
+
+The standard qsort() function from <stdlib.h> is not stable, but we can force
+stability by changing the comparison function to account for item position.
+
+Here's a description of the solution from StackOverflow:
+
+:The canonical solution is to make (i.e. allocate memory for and fill) an array
+of pointers to the elements of the original array, and qsort this new array,
+using an extra level of indirection and falling back to comparing pointer values
+when the things they point to are equal. This approach has the potential side
+benefit that you don't modify the original array at all - but if you want the
+original array to be sorted in the end, you'll have to permute it to match the
+order in the array of pointers after qsort returns.

@@ -1,0 +1,123 @@
+= Useful Lua Recipes
+
+
+== Iterators Via Coroutines
+
+{{{
+local function count(n)
+    return coroutine.wrap(
+        function ()
+            for i = 1, n do
+                coroutine.yield(i)
+            end
+        end
+    )
+end
+
+for i in count(10) do
+    print(i)
+end
+}}}
+
+== Skew Heap
+
+[[http://lua-users.org/lists/lua-l/2007-11/msg00375.html]]
+
+{{{
+local function qmerge(a, b)
+    if not (a and b) then
+        return a or b
+    end
+    if a.key < b.key then
+        a.left, a.right = a.right, qmerge(a.left, b)
+        return a
+    else
+        b.left, b.right = b.right, qmerge(a, b.left)
+        return b
+    end
+end
+
+local function qpush(q, k, v)
+    return qmerge(q, {key=k, val=v})
+end
+
+local function qpop(q)
+    return qmerge(q.left, q.right)
+end
+
+q = nil
+
+q = qpush(q, 5, "a")
+q = qpush(q, 2, "b")
+q = qpush(q, 7, "c")
+q = qpush(q, 1, "d")
+
+while q ~= nil do
+    print(q.val)
+    q = qpop(q)
+end
+}}}
+
+== Sleep
+
+[[http://luajit.org/ext_ffi_tutorial.html]]
+
+{{{
+local ffi = require "ffi"
+
+ffi.cdef[[
+void Sleep(int ms);
+int poll(struct pollfd *fds, unsigned long nfds, int timeout);
+]]
+
+local sleep
+if ffi.os == "Windows" then
+  function sleep(s)
+    ffi.C.Sleep(s*1000)
+  end
+else
+  function sleep(s)
+    ffi.C.poll(nil, 0, s*1000)
+  end
+end
+}}}
+
+== Parsing List of Integers
+
+{{{
+local function get_nums(str)
+    local nums = {}
+    for s in string.gmatch(str, "-?%d+") do
+        nums[#nums+1] = tonumber(s)
+    end
+    return unpack(nums)
+end
+
+local w, h, x, y = get_nums("100 234 -20 0")
+}}}
+
+== Converting UTF-8 String to Code Sequence
+
+[[http://lua-users.org/wiki/LuaUnicode]]
+
+{{{
+local function utf8to32(utf8str)
+    assert(type(utf8str) == "string")
+    local res, seq, val = {}, 0, nil
+    for i = 1, #utf8str do
+        local c = string.byte(utf8str, i)
+        if seq == 0 then
+            table.insert(res, val)
+            seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
+                  c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
+                  error("invalid UTF-8 character sequence")
+            val = bit.band(c, 2^(8-seq) - 1)
+        else
+            val = bit.bor(bit.lshift(val, 6), bit.band(c, 0x3F))
+        end
+        seq = seq - 1
+    end
+    table.insert(res, val)
+    return res
+end
+}}}

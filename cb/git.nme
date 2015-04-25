@@ -1,0 +1,227 @@
+= Useful Git Recipes
+
+
+== Basic Commands
+
+Clone repository:
+{{{
+$ git clone https://foo.net/bar
+}}}
+
+Add file to index:
+{{{
+$ git add README.md
+}}}
+
+Check index status:
+{{{
+$ git status     # verbose
+$ git status -s  # silent
+}}}
+
+View changes:
+{{{
+$ git diff            # all files
+$ git diff README.md  # one file only
+$ git diff --numstat  # insert/delete statistics
+}}}
+
+Commit changes:
+{{{
+$ git commit -m 'Commit message.'
+}}}
+
+Add all changed files to index and commit changes:
+{{{
+$ git commit -am 'Commit message.'
+}}}
+
+Push local commits to remote repository:
+{{{
+$ git push                # use default remote & branch
+$ git push origin master  # specify remote & branch
+}}}
+
+Fetch commits from remote repository:
+{{{
+$ git fetch [remote]
+}}}
+
+Merge received commits with local commits:
+{{{
+$ git merge
+}}}
+
+Fetch and merge remote commits with local commits:
+{{{
+$ git pull [remote] # equivalent to `git fetch [remote]; git merge`
+}}}
+
+
+== Remote repositories
+
+Show remotes:
+{{{
+$ git remote -v
+}}}
+
+Add remote:
+{{{
+$ git remote add foo https://foo.net/bar
+}}}
+
+Remove remote:
+{{{
+$ git remote rm foo
+}}}
+
+Rename remote:
+{{{
+$ git remote rename foo bar
+}}}
+
+
+== Tags
+
+There are two types of tags: lightweight and annotated.
+
+A lightweight tag is just a named pointer to a specific commit.
+
+Annotated tags have commit-like metadata (date, author, description, etc). They
+are useful for identifying releases.
+
+By default, tags created locally aren't transfered via push. You can send tags
+to a remote repository by specifying the tag name or using the --tags option.
+
+List tags:
+{{{
+$ git tag           # all tags
+$ git tag -l 'v1*'  # tags starting with v1
+}}}
+
+Create lightweight tag:
+{{{
+$ git tag foo [commit] # last commit is used by default
+}}}
+
+Create annotated tag:
+{{{
+$ git tag -a v1.4 -m "Version 1.4." [commit] # last commit is used by default
+}}}
+
+See tag (and associated commit) metadata:
+{{{
+$ git show v1.4
+}}}
+
+Send tag to remote repository:
+{{{
+$ git push [remote] v1.4
+}}}
+
+Send all local tags to remote repository:
+{{{
+$ git push [remote] --tags
+}}}
+
+
+== Branches
+
+List branches:
+{{{
+$ git branch # current working branch is shown with a star (*)
+}}}
+
+Create branch:
+{{{
+$ git branch issue33
+}}}
+
+Work on branch (move HEAD):
+{{{
+$ # this will change local files to reflect the branch state!
+$ git checkout issue33
+}}}
+
+Create branch and work on it:
+{{{
+$ git checkout -b issue33 # equivalent to `git branch issue33; git checkout issue33`
+}}}
+
+Send branch to remote repository:
+{{{
+$ git push -u origin issue33
+}}}
+
+Receive branch from remote repository:
+{{{
+$ git checkout --track origin/issue33
+}}}
+
+Merge branches:
+{{{
+$ git checkout master  # move HEAD back to master
+$ git merge issue33    # add changes from branch to master
+}}}
+
+Delete branch:
+{{{
+$ git branch -d issue33
+}}}
+
+
+== Patches
+
+A simple patch file can be created with diff:
+{{{
+$ git diff > foo.patch
+}}}
+
+This is mainly useful for uncommited changes. We can apply that patch to a
+working directory with apply:
+{{{
+$ git apply foo.patch
+}}}
+
+For commited changes, the command format-patch is more suitable.
+For example, to create a single patch file with the last 10 commits:
+{{{
+$ git format-patch -10 HEAD --stdout > bar.patch
+}}}
+
+Note that format-patch will add commit metadata to the patch file, so it's the
+recommended way to generate patches that will be sent via email to maintainers.
+
+To apply a patch of commits to a repository, we use the am command:
+{{{
+$ git am bar.patch
+}}}
+
+
+== Archives
+
+Create archive of HEAD:
+{{{
+$ git archive -o latest.zip HEAD
+}}}
+
+Create archive of tag v1.4.0:
+{{{
+$ git archive --prefix=git-1.4.0/ -o git-1.4.0.tar.gz v1.4.0
+}}}
+
+
+== Hooks
+
+Take some action after receiving a push on master:
+{{{
+#!/bin/sh
+# -- repo/hooks/post-receive --
+while read oldrev newrev refname
+do
+    branch=`git rev-parse --symbolic --abbrev-ref $refname`
+    if [ "master" == "$branch" ]; then
+        # Do something
+    fi
+done
+}}}
