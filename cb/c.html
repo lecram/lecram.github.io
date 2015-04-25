@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Useful C Recipes</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab|Archivo+Narrow' rel='stylesheet' type='text/css' />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+<h1 id="h1">Useful C Recipes</h1>
+<h2 id="h23">1. About This Document</h2>
+<p>This is a collection of useful idioms and tricks that can be used
+while coding in C. These patterns were collected while writing and
+reading real world code.</p>
+<p>While this document has a focus on the practical use of the C
+language, some effort was made to make it a little more didactical
+than real world code. In particular, typedefs were used extensively
+to isolate the definition of types not relevant to the concept being
+explored. Please note that the excessive use of typedef in practice
+may be harmful, making the code less readable and harder to interface
+with tools and programs.</p>
+<p>For the sake of brevity, the code presented here lacks proper
+error checking.</p>
+<h2 id="h716">2. Quickly Checking System Macro Value</h2>
+<p>It's often convenient to know the expansion of a macro defined by
+a system header. The naive way to do this is creating a small C
+program with a main function that simply prints the value of the
+macro. This requires that we create a new file, compile it and run
+the executable.</p>
+<p>The best way to print a macro expansion is by using the C
+preprocessor (cpp). By default, cpp reads from stdin and writes to
+stdout. This means we can type directives and macros and get the
+resulting expansions immediatelly. cpp will usually print a lot of
+uninteresting information, specially when processing #include
+directives, so we may want to pipe it to tail.</p>
+<p>As an example, let's check the value of &lt;stdio.h&gt;'s BUFSIZ:</p>
+<pre>
+$ cpp | tail -1
+#include &lt;stdio.h&gt;
+BUFSIZ
+8192
+</pre>
+<p>Note that in this example we have typed &lt;CTRL+D&gt; after
+typing &quot;BUFSIZ&quot;+&lt;RETURN&gt;.</p>
+<h2 id="h1603">3. Dynamic Typing with Struct Tagging</h2>
+<p>Useful to build simple object systems.</p>
+<p>This exploits the fact that a struct can be casted to the type of
+its first field (and vice versa):</p>
+<pre>
+typedef struct { int r, g, b; } Color;
+Color c1 = {R, G, B};
+int i = (int) c1;           /* i = R; */
+Color c2 = (Color) i;       /* c2 = {R, ?, ?} */
+</pre>
+<p>Defining types:</p>
+<pre>
+typedef enum {INTEGER, REAL} Tag;
+typedef Tag *Obj;
+typedef struct {
+    Tag tag;
+    int val;
+} Integer;
+typedef struct {
+    Tag tag;
+    double val;
+} Real;
+</pre>
+<p>Creating objects:</p>
+<pre>
+Integer *new_integer(int val) {
+    Integer *i = malloc(sizeof(*i));
+    i-&gt;tag = INTEGER;
+    i-&gt;val = val;
+    return i;
+}
+Real *new_real(double val) {
+    Real *r = malloc(sizeof(*r));
+    r-&gt;tag = REAL;
+    r-&gt;val = val;
+    return r;
+}
+</pre>
+<p>Operator overloading via case (single C function):</p>
+<pre>
+void print_object(Obj obj) {
+    Tag tag = *obj;
+    switch (tag) {
+        case INTEGER:
+            printf(&quot;%d&quot;, ((Integer *) obj)-&gt;val);
+            break;
+        case REAL:
+            printf(&quot;%f&quot;, ((Real *) obj)-&gt;val);
+            break;
+    }
+}
+</pre>
+<p>Operator overloading via explicit dispatch table (a.k.a. vtable):</p>
+<pre>
+void print_integer(Obj obj) {
+    printf(&quot;%d&quot;, ((Integer *) obj)-&gt;val);
+}
+void print_real(Obj obj) {
+    printf(&quot;%f&quot;, ((Real *) obj)-&gt;val);
+}
+typedef void (*Func) (Obj obj);
+static Func print[] = {print_integer, print_real};
+void print_object(Obj obj) {
+    Tag tag = *obj;
+    print[tag](obj);
+}
+</pre>
+<p>An object can carry more information than just a type tag. For
+example, to allow reference counting:</p>
+<pre>
+typedef enum {INTEGER, REAL} Tag;
+typedef struct {Tag tag; unsigned refc;} Header;
+typedef Header *Obj;
+typedef struct {
+    Header header;
+    int val;
+} Integer;
+typedef struct {
+    Header header;
+    double val;
+} Real;
+</pre>
+<p>Note that we can also do casts between two different structs that
+share the same prefix:</p>
+<pre>
+typedef struct { Color c; Point ul, br; } Rect;
+typedef struct { Color c; Point o; double r; } Circle;
+Rect rect = {RED, P1, P2};
+Circle circle = (Circle) rect;      /* a red circle centered at P1 */
+</pre>
+<h2 id="h3719">4. Dynamic Contiguous Homogeneous Array</h2>
+<p>A contiguous array is the most simple and efficient collection
+structure for homogeneous data. C has great builtin support for fixed
+sized arrays. Sometimes it's convenient to have an array that grows
+(and shrinks) as necessary. The function realloc() makes this very
+simple. The basic idea is to multiply the array size by a constant
+every time it needs more space.</p>
+<p>The exact value of the constant doesn't affect assymtoptic
+complexity. In practice, many programs use 2, growing the array by
+doubling its size. However, this choice must take into consideration
+the behavior of reallocators. In some environments/languages,
+reallocations cannot be done in-place (i.e. without changing
+address). This limitation causes a &quot;walking pointer&quot; when
+doubling a buffer's size. Using a Fibonacci sequence for size will
+circunvent this problem, assuming the reallocator is able to move
+overlapping data (as in memmove()). If copying overlapping buffers is
+not possible (as in memcpy()), then the Padovan sequence must be
+used. In modern GNU/Linux environments, the realloc() function
+doesn't seem to have any of these limitations, so the choice of
+growing pattern is only determined by the time/memory trade-off:
+smaller growth factors reduce memory waste, greater growth factors
+reduce time waste.</p>
+<p>Sometimes it's also nice to shrink the array to free unused
+memory. The choice of whether to do this and how to do it is
+dependent on the use pattern that the array is expected to have.</p>
+<p>With these concepts in mind, we can implement a typical stack. It
+shrinks when the amount of unused space reachs about the same size of
+the used space.</p>
+<pre>
+typedef int Item; /* could be anything instead of int */
+typedef struct {
+    unsigned bulk;
+    unsigned length;
+    Item *items;
+} Stack;
+
+Stack *new_stack(unsigned init_bulk) {
+    Stack *stack = malloc(sizeof(*stack));
+    stack-&gt;bulk = init_bulk;
+    stack-&gt;length = 0;
+    stack-&gt;items = malloc(init_bulk * sizeof(*stack-&gt;items));
+    return stack;
+}
+void push(Stack *stack, Item item) {
+    if (stack-&gt;length == stack-&gt;bulk) {
+        stack-&gt;bulk *= 2;
+        stack-&gt;items = realloc(stack-&gt;items, stack-&gt;bulk * sizeof(*stack-&gt;items));
+    }
+    stack-&gt;items[stack-&gt;length++] = item;
+}
+Item pop(Stack *stack) {
+    if (stack-&gt;length == stack-&gt;bulk / 2) {
+        stack-&gt;bulk = stack-&gt;length;
+        stack-&gt;items = realloc(stack-&gt;items, stack-&gt;bulk * sizeof(*stack-&gt;items));
+    }
+    return stack-&gt;items[--stack-&gt;length];
+}
+</pre>
+<h2 id="h6233">5. Overloaded Array (TODO)</h2>
+<p>memcpy size_t (cf. libalt)</p>
+<h2 id="h6290">6. Circular Buffer (TODO)</h2>
+<p>(cf. coral's Buffer)</p>
+<h2 id="h6339">7. Stable Sort</h2>
+<p><a href="http://stackoverflow.com/a/6105590">http://stackoverflow.com/a/6105590</a></p>
+<p>The standard qsort() function from &lt;stdlib.h&gt; is not stable,
+but we can force stability by changing the comparison function to
+account for item position.</p>
+<p>Here's a description of the solution from StackOverflow:</p>
+<div style="margin-left:2em">
+  <p>The canonical solution is to make (i.e. allocate memory for and
+  fill) an array of pointers to the elements of the original array,
+  and qsort this new array, using an extra level of indirection and
+  falling back to comparing pointer values when the things they point
+  to are equal. This approach has the potential side benefit that you
+  don't modify the original array at all - but if you want the
+  original array to be sorted in the end, you'll have to permute it
+  to match the order in the array of pointers after qsort returns.</p>
+</div>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Useful Shell Recipes</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab|Archivo+Narrow' rel='stylesheet' type='text/css' />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+<h1 id="h1">Useful Shell Recipes</h1>
+<h2 id="h27">1. For Loop</h2>
+<pre>
+for i in {1..10}
+do
+    echo $i
+done
+
+N=10
+for i in `seq 1 $N`
+do
+    echo $i
+done
+</pre>
+<h2 id="h133">2. Create Text File Interactively</h2>
+<pre>
+$ cat &gt; foo
+Enter
+Text
+Here
+&lt;Ctrl+D&gt;
+$
+</pre>
+<h2 id="h216">3. Create Text File From Script</h2>
+<pre>
+cat &gt; foo &lt;&lt; EOF
+Enter
+Text
+Here
+EOF
+</pre>
+<h2 id="h295">4. Read Stream Line by Line</h2>
+<pre>
+while read line
+do
+    echo $line
+done &lt; stream
+</pre>
+<h2 id="h381">5. Named Pipe (a.k.a. FIFO)</h2>
+<pre>
+$ mkfifo my_pipe
+$ gzip -9 -c &lt; my_pipe &gt; out.gz &amp;
+$ cat file &gt; my_pipe
+$ rm my_pipe
+</pre>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>

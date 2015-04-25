@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Useful Git Recipes</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab|Archivo+Narrow' rel='stylesheet' type='text/css' />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+<h1 id="h1">Useful Git Recipes</h1>
+<h2 id="h25">1. Basic Commands</h2>
+<p>Clone repository:</p>
+<pre>
+$ git clone https://foo.net/bar
+</pre>
+<p>Add file to index:</p>
+<pre>
+$ git add README.md
+</pre>
+<p>Check index status:</p>
+<pre>
+$ git status     # verbose
+$ git status -s  # silent
+</pre>
+<p>View changes:</p>
+<pre>
+$ git diff            # all files
+$ git diff README.md  # one file only
+$ git diff --numstat  # insert/delete statistics
+</pre>
+<p>Commit changes:</p>
+<pre>
+$ git commit -m 'Commit message.'
+</pre>
+<p>Add all changed files to index and commit changes:</p>
+<pre>
+$ git commit -am 'Commit message.'
+</pre>
+<p>Push local commits to remote repository:</p>
+<pre>
+$ git push                # use default remote &amp; branch
+$ git push origin master  # specify remote &amp; branch
+</pre>
+<p>Fetch commits from remote repository:</p>
+<pre>
+$ git fetch [remote]
+</pre>
+<p>Merge received commits with local commits:</p>
+<pre>
+$ git merge
+</pre>
+<p>Fetch and merge remote commits with local commits:</p>
+<pre>
+$ git pull [remote] # equivalent to `git fetch [remote]; git merge`
+</pre>
+<h2 id="h950">2. Remote repositories</h2>
+<p>Show remotes:</p>
+<pre>
+$ git remote -v
+</pre>
+<p>Add remote:</p>
+<pre>
+$ git remote add foo https://foo.net/bar
+</pre>
+<p>Remove remote:</p>
+<pre>
+$ git remote rm foo
+</pre>
+<p>Rename remote:</p>
+<pre>
+$ git remote rename foo bar
+</pre>
+<h2 id="h1172">3. Tags</h2>
+<p>There are two types of tags: lightweight and annotated.</p>
+<p>A lightweight tag is just a named pointer to a specific commit.</p>
+<p>Annotated tags have commit-like metadata (date, author,
+description, etc). They are useful for identifying releases.</p>
+<p>By default, tags created locally aren't transfered via push. You
+can send tags to a remote repository by specifying the tag name or
+using the --tags option.</p>
+<p>List tags:</p>
+<pre>
+$ git tag           # all tags
+$ git tag -l 'v1*'  # tags starting with v1
+</pre>
+<p>Create lightweight tag:</p>
+<pre>
+$ git tag foo [commit] # last commit is used by default
+</pre>
+<p>Create annotated tag:</p>
+<pre>
+$ git tag -a v1.4 -m &quot;Version 1.4.&quot; [commit] # last commit is used by default
+</pre>
+<p>See tag (and associated commit) metadata:</p>
+<pre>
+$ git show v1.4
+</pre>
+<p>Send tag to remote repository:</p>
+<pre>
+$ git push [remote] v1.4
+</pre>
+<p>Send all local tags to remote repository:</p>
+<pre>
+$ git push [remote] --tags
+</pre>
+<h2 id="h2083">4. Branches</h2>
+<p>List branches:</p>
+<pre>
+$ git branch # current working branch is shown with a star (*)
+</pre>
+<p>Create branch:</p>
+<pre>
+$ git branch issue33
+</pre>
+<p>Work on branch (move HEAD):</p>
+<pre>
+$ # this will change local files to reflect the branch state!
+$ git checkout issue33
+</pre>
+<p>Create branch and work on it:</p>
+<pre>
+$ git checkout -b issue33 # equivalent to `git branch issue33; git checkout issue33`
+</pre>
+<p>Send branch to remote repository:</p>
+<pre>
+$ git push -u origin issue33
+</pre>
+<p>Receive branch from remote repository:</p>
+<pre>
+$ git checkout --track origin/issue33
+</pre>
+<p>Merge branches:</p>
+<pre>
+$ git checkout master  # move HEAD back to master
+$ git merge issue33    # add changes from branch to master
+</pre>
+<p>Delete branch:</p>
+<pre>
+$ git branch -d issue33
+</pre>
+<h2 id="h2815">5. Patches</h2>
+<p>A simple patch file can be created with diff:</p>
+<pre>
+$ git diff &gt; foo.patch
+</pre>
+<p>This is mainly useful for uncommited changes. We can apply that
+patch to a working directory with apply:</p>
+<pre>
+$ git apply foo.patch
+</pre>
+<p>For commited changes, the command format-patch is more suitable.
+For example, to create a single patch file with the last 10 commits:</p>
+<pre>
+$ git format-patch -10 HEAD --stdout &gt; bar.patch
+</pre>
+<p>Note that format-patch will add commit metadata to the patch file,
+so it's the recommended way to generate patches that will be sent via
+email to maintainers.</p>
+<p>To apply a patch of commits to a repository, we use the am
+command:</p>
+<pre>
+$ git am bar.patch
+</pre>
+<h2 id="h3490">6. Archives</h2>
+<p>Create archive of HEAD:</p>
+<pre>
+$ git archive -o latest.zip HEAD
+</pre>
+<p>Create archive of tag v1.4.0:</p>
+<pre>
+$ git archive --prefix=git-1.4.0/ -o git-1.4.0.tar.gz v1.4.0
+</pre>
+<h2 id="h3670">7. Hooks</h2>
+<p>Take some action after receiving a push on master:</p>
+<pre>
+#!/bin/sh
+# -- repo/hooks/post-receive --
+while read oldrev newrev refname
+do
+    branch=`git rev-parse --symbolic --abbrev-ref $refname`
+    if [ &quot;master&quot; == &quot;$branch&quot; ]; then
+        # Do something
+    fi
+done
+</pre>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>

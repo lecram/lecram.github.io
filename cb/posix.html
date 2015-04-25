@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Useful POSIX Recipes</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab|Archivo+Narrow' rel='stylesheet' type='text/css' />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+<h1 id="h1">Useful POSIX Recipes</h1>
+<h2 id="h26">1. Spawn Process (a.k.a. fork-exec)</h2>
+<p><a href="http://en.wikipedia.org/wiki/Fork_(system_call)">http://en.wikipedia.org/wiki/Fork_(system_call)</a></p>
+<pre>
+#include &lt;unistd.h&gt;
+
+void
+spawn(char *const argv[])
+{
+    pid_t pid;
+    int status;
+
+    pid = fork();
+    if (pid &gt; 0) {
+        /* fork() succeeded. */
+        waitpid(pid, &amp;status, 0);
+    } else if (pid == 0) {
+        /* Child process. */
+        execvp(argv[0], argv);
+    }
+}
+</pre>
+<h2 id="h410">2. Read Output of Child Process</h2>
+<p><a
+href="http://stackoverflow.com/questions/2605130/redirecting-exec-output-to-a-buffer-or-file">http://stackoverflow.com/questions/2605130/redirecting-exec-output-to-a-buffer-or-file</a></p>
+<pre>
+int pipefd[2];
+pipe(pipefd);
+
+if (fork() == 0) {
+    close(pipefd[0]);    /* close reading end in the child */
+    dup2(pipefd[1], 1);  /* send stdout to the pipe */
+    dup2(pipefd[1], 2);  /* send stderr to the pipe */
+    close(pipefd[1]);    /* this descriptor is no longer needed */
+    exec(...);
+} else {
+    char buffer[1024];
+
+    close(pipefd[1]);  /* close the write end of the pipe in the parent */
+    while (read(pipefd[0], buffer, sizeof(buffer)) != 0) {
+        ...
+    }
+}
+</pre>
+<h2 id="h1035">3. List Directory</h2>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;dirent.h&gt;
+
+int
+ls(const char *path)
+{
+    DIR *dp;
+    struct dirent *ep;
+
+    if(!(dp = opendir(path)))
+        return -1;
+    while ((ep = readdir(dp)))
+        puts(ep-&gt;d_name);
+    closedir(dp);
+    return 0;
+}
+</pre>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Useful Lua Recipes</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab|Archivo+Narrow' rel='stylesheet' type='text/css' />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+<h1 id="h1">Useful Lua Recipes</h1>
+<h2 id="h25">1. Iterators Via Coroutines</h2>
+<pre>
+local function count(n)
+    return coroutine.wrap(
+        function ()
+            for i = 1, n do
+                coroutine.yield(i)
+            end
+        end
+    )
+end
+
+for i in count(10) do
+    print(i)
+end
+</pre>
+<h2 id="h275">2. Skew Heap</h2>
+<p><a
+href="http://lua-users.org/lists/lua-l/2007-11/msg00375.html">http://lua-users.org/lists/lua-l/2007-11/msg00375.html</a></p>
+<pre>
+local function qmerge(a, b)
+    if not (a and b) then
+        return a or b
+    end
+    if a.key &lt; b.key then
+        a.left, a.right = a.right, qmerge(a.left, b)
+        return a
+    else
+        b.left, b.right = b.right, qmerge(a, b.left)
+        return b
+    end
+end
+
+local function qpush(q, k, v)
+    return qmerge(q, {key=k, val=v})
+end
+
+local function qpop(q)
+    return qmerge(q.left, q.right)
+end
+
+q = nil
+
+q = qpush(q, 5, &quot;a&quot;)
+q = qpush(q, 2, &quot;b&quot;)
+q = qpush(q, 7, &quot;c&quot;)
+q = qpush(q, 1, &quot;d&quot;)
+
+while q ~= nil do
+    print(q.val)
+    q = qpop(q)
+end
+</pre>
+<h2 id="h914">3. Sleep</h2>
+<p><a href="http://luajit.org/ext_ffi_tutorial.html">http://luajit.org/ext_ffi_tutorial.html</a></p>
+<pre>
+local ffi = require &quot;ffi&quot;
+
+ffi.cdef[[
+void Sleep(int ms);
+int poll(struct pollfd *fds, unsigned long nfds, int timeout);
+]]
+
+local sleep
+if ffi.os == &quot;Windows&quot; then
+  function sleep(s)
+    ffi.C.Sleep(s*1000)
+  end
+else
+  function sleep(s)
+    ffi.C.poll(nil, 0, s*1000)
+  end
+end
+</pre>
+<h2 id="h1259">4. Parsing List of Integers</h2>
+<pre>
+local function get_nums(str)
+    local nums = {}
+    for s in string.gmatch(str, &quot;-?%d+&quot;) do
+        nums[#nums+1] = tonumber(s)
+    end
+    return unpack(nums)
+end
+
+local w, h, x, y = get_nums(&quot;100 234 -20 0&quot;)
+</pre>
+<h2 id="h1508">5. Converting UTF-8 String to Code Sequence</h2>
+<p><a href="http://lua-users.org/wiki/LuaUnicode">http://lua-users.org/wiki/LuaUnicode</a></p>
+<pre>
+local function utf8to32(utf8str)
+    assert(type(utf8str) == &quot;string&quot;)
+    local res, seq, val = {}, 0, nil
+    for i = 1, #utf8str do
+        local c = string.byte(utf8str, i)
+        if seq == 0 then
+            table.insert(res, val)
+            seq = c &lt; 0x80 and 1 or c &lt; 0xE0 and 2 or c &lt; 0xF0 and 3 or
+                  c &lt; 0xF8 and 4 or --c &lt; 0xFC and 5 or c &lt; 0xFE and 6 or
+                  error(&quot;invalid UTF-8 character sequence&quot;)
+            val = bit.band(c, 2^(8-seq) - 1)
+        else
+            val = bit.bor(bit.lshift(val, 6), bit.band(c, 0x3F))
+        end
+        seq = seq - 1
+    end
+    table.insert(res, val)
+    return res
+end
+</pre>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>
