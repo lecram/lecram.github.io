@@ -126,7 +126,7 @@ $ git push [remote] --tags
 
 Rename a tag:
 {{{
-$ git tag new old
+$ git tag new old -m "Repeat tag message here."
 $ git tag -d old
 $ git push origin :old
 $ git push --tags
