@@ -110,7 +110,14 @@ $ git push [remote] v1.4
 <pre>
 $ git push [remote] --tags
 </pre>
-<h2 id="h2062">4. Branches</h2>
+<p>Rename a tag:</p>
+<pre>
+$ git tag new old
+$ git tag -d old
+$ git push origin :old
+$ git push --tags
+</pre>
+<h2 id="h2161">4. Branches</h2>
 <p>List branches:</p>
 <pre>
 $ git branch # current working branch is shown with a star (*)
@@ -145,7 +152,7 @@ $ git merge issue33    # add changes from branch to master
 <pre>
 $ git branch -d issue33
 </pre>
-<h2 id="h2794">5. Patches</h2>
+<h2 id="h2893">5. Patches</h2>
 <p>A simple patch file can be created with diff:</p>
 <pre>
 $ git diff &gt; foo.patch
@@ -168,7 +175,7 @@ command:</p>
 <pre>
 $ git am bar.patch
 </pre>
-<h2 id="h3469">6. Archives</h2>
+<h2 id="h3568">6. Archives</h2>
 <p>Create archive of HEAD:</p>
 <pre>
 $ git archive -o latest.zip HEAD
@@ -177,7 +184,7 @@ $ git archive -o latest.zip HEAD
 <pre>
 $ git archive --prefix=git-1.4.0/ -o git-1.4.0.tar.gz v1.4.0
 </pre>
-<h2 id="h3649">7. Hooks</h2>
+<h2 id="h3748">7. Hooks</h2>
 <p>Take some action after receiving a push on master:</p>
 <pre>
 #!/bin/sh
