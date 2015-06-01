@@ -14,7 +14,7 @@
   </div>
   <div id="content">
     <h1>Useful Git Recipes</h1>
-    <p id="timestamp">Last updated on 2015-04-25 12:09:48 -0300</p>
+    <p id="timestamp">Last updated on 2015-06-01 16:52:27 -0300</p>
 <h2 id="h4">1. Basic Commands</h2>
 <p>Clone repository:</p>
 <pre>
@@ -112,12 +112,12 @@ $ git push [remote] --tags
 </pre>
 <p>Rename a tag:</p>
 <pre>
-$ git tag new old
+$ git tag new old -m &quot;Repeat tag message here.&quot;
 $ git tag -d old
 $ git push origin :old
 $ git push --tags
 </pre>
-<h2 id="h2161">4. Branches</h2>
+<h2 id="h2191">4. Branches</h2>
 <p>List branches:</p>
 <pre>
 $ git branch # current working branch is shown with a star (*)
@@ -152,7 +152,7 @@ $ git merge issue33    # add changes from branch to master
 <pre>
 $ git branch -d issue33
 </pre>
-<h2 id="h2893">5. Patches</h2>
+<h2 id="h2923">5. Patches</h2>
 <p>A simple patch file can be created with diff:</p>
 <pre>
 $ git diff &gt; foo.patch
@@ -175,7 +175,7 @@ command:</p>
 <pre>
 $ git am bar.patch
 </pre>
-<h2 id="h3568">6. Archives</h2>
+<h2 id="h3598">6. Archives</h2>
 <p>Create archive of HEAD:</p>
 <pre>
 $ git archive -o latest.zip HEAD
@@ -184,7 +184,7 @@ $ git archive -o latest.zip HEAD
 <pre>
 $ git archive --prefix=git-1.4.0/ -o git-1.4.0.tar.gz v1.4.0
 </pre>
-<h2 id="h3748">7. Hooks</h2>
+<h2 id="h3778">7. Hooks</h2>
 <p>Take some action after receiving a push on master:</p>
 <pre>
 #!/bin/sh
