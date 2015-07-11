@@ -218,6 +218,11 @@ Create archive of tag v1.4.0:
 $ git archive --prefix=git-1.4.0/ -o git-1.4.0.tar.gz v1.4.0
 }}}
 
+Extract archive to another place:
+{{{
+$ git archive --prefix=project/ HEAD | tar xC /tmp
+}}}
+
 
 == Hooks
 
