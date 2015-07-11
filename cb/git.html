@@ -14,7 +14,7 @@
   </div>
   <div id="content">
     <h1>Useful Git Recipes</h1>
-    <p id="timestamp">Last updated on 2015-06-01 16:52:27 -0300</p>
+    <p id="timestamp">Last updated on 2015-07-11 17:08:06 -0300</p>
 <h2 id="h4">1. Basic Commands</h2>
 <p>Clone repository:</p>
 <pre>
@@ -184,7 +184,11 @@ $ git archive -o latest.zip HEAD
 <pre>
 $ git archive --prefix=git-1.4.0/ -o git-1.4.0.tar.gz v1.4.0
 </pre>
-<h2 id="h3778">7. Hooks</h2>
+<p>Extract archive to another place:</p>
+<pre>
+$ git archive --prefix=project/ HEAD | tar xC /tmp
+</pre>
+<h2 id="h3872">7. Hooks</h2>
 <p>Take some action after receiving a push on master:</p>
 <pre>
 #!/bin/sh
