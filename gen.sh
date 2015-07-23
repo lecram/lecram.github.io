@@ -6,7 +6,12 @@ TEMPLATE="template.html"
 NMEFLAGS="--headernum2 --xref --html --body"
 
 TITLE=`sed -n -e 's/^[= ]*\(.*\)[= ]*$/\1/' -e '1p' $SOURCE`
-TIMESTAMP=`git log -n 1 --pretty=format:"%ai" -- $SOURCE`
+if [ `git diff-files --quiet $SOURCE` ]
+then
+  TIMESTAMP=`date -d "@$(stat -c '%Y' $SOURCE)" "+%F %T %z"`
+else
+  TIMESTAMP=`git log -n 1 --pretty=format:"%ai" -- $SOURCE`
+fi
 
 LINECOUNT=`wc -l < $TEMPLATE`
 SPLITLINE=`awk '/{CONTENT}/ {print FNR}' $TEMPLATE`
