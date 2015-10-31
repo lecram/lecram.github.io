@@ -22,7 +22,7 @@ table,td,th {
     padding: 3px;
 }
 
-pre {
+pre,tt {
     border-width: 1px;
     border-color: #DDD;
     border-style: solid;
