@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rover -- simple file browser for the terminal</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+    <h1>Rover -- simple file browser for the terminal</h1>
+    <p id="timestamp">Last updated on </p>
+<p>Rover is a small file browser that aims to be simple, fast and
+portable.</p>
+<p>Feature overview:</p>
+
+<ul>
+  <li>multi-tab single panel directory listing</li>
+  <li>navigation with vi-like key bindings</li>
+  <li>file opening with $PAGER or $EDITOR</li>
+  <li>open $SHELL in the current directory</li>
+  <li>create/rename/delete single files and directories</li>
+  <li>copy/move/delete multiple files/directories</li>
+</ul>
+<p>Rover has a Terminal User Interface (TUI) designed to fit in a
+small window. There are ten tabs, but only one is visible at each
+time, selected by keys 0-9. The number of the current active/visible
+tab is shown at the top-right corner. The starting path for each tab
+can be given as command-line arguments; unassigned tabs will start at
+the current working directory. The current directory of the active
+tab is shown at the very top of the screen.</p>
+<p><img src="rv01.gif" alt="rv01.gif" /></p>
+<p>The keys h, j, k &amp; l are used to navigate in the file system.
+j/k moves the cursor down/up, h goes to the parent directory and l
+enters the selected directory. Additionally, g/G goes to the
+first/last entry in the list. To navigate faster whithin a directory,
+the keys J, K &amp; / can be used. J/K moves 10 entries down/up. /
+starts an incremental search: entries are selected as you type the
+desired filename prefix. At the bottom-left corner, the number of
+entries on the current directory is shown preceded by the number of
+the selected entry. This information is also shown graphically as a
+vertical scroll bar on the right side of the panel.</p>
+<p><img src="rv02.gif" alt="rv02.gif" /></p>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>
