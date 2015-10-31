@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Useful Regular Expression Recipes</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+    <h1>Useful Regular Expression Recipes</h1>
+    <p id="timestamp">Last updated on </p>
+<h2 id="h3">1. Extracting commit messages from gitweb shortlog</h2>
+<pre>
+$ sed -n 's:.*&quot;author&quot;.*;h=[^/]*&quot;&gt;\([^&lt;]*\)&lt;/a&gt;.*:\1:p' shortlog.html
+</pre>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>
