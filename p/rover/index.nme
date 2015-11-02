@@ -43,8 +43,8 @@ side of the panel.
 
 File browsers usually allow the user to open a file with an appropriate program.
 Rover is still very limited on this area.
-There are only two ways of opening a file: the key ##SPACE## will invoke $PAGER
-and the key ##e## will invoke $EDITOR. In both cases, Rover waits in the
-background until you exit the invoked program.
+There are only two ways of opening a file: the key ##SPACE## will invoke
+##$PAGER## and the key ##e## will invoke ##$EDITOR##.
+In both cases, Rover waits in the background until you exit the invoked program.
 
 {{rv03.gif}}
