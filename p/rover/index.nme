@@ -7,8 +7,8 @@ Feature overview:
 
  * multi-tab single panel directory listing
  * navigation with vi-like key bindings
- * file opening with $PAGER or $EDITOR
- * open $SHELL in the current directory
+ * file opening with ##$PAGER## or ##$EDITOR##
+ * open ##$SHELL## in the current directory
  * create/rename/delete single files and directories
  * copy/move/delete multiple files/directories
 
