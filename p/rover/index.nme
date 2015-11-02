@@ -48,3 +48,9 @@ There are only two ways of opening a file: the key ##SPACE## will invoke
 In both cases, Rover waits in the background until you exit the invoked program.
 
 {{rv03.gif}}
+
+Another handy feature is opening a shell in the current directory. This can be
+done with the key ##ENTER##. Rover sets the environmental variable ##$RVSEL## to
+the filename of the selected entry.
+
+{{rv04.gif}}

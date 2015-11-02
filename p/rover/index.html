@@ -13,7 +13,7 @@
   </div>
   <div id="content">
     <h1>Rover -- simple file browser for the terminal</h1>
-    <p id="timestamp">Last updated on 2015-10-31 17:05:00 -0200</p>
+    <p id="timestamp">Last updated on 2015-11-02 16:47:29 -0200</p>
 <p>Rover is a small file browser that aims to be simple, fast and
 portable.</p>
 <p>Feature overview:</p>
@@ -21,8 +21,8 @@ portable.</p>
 <ul>
   <li>multi-tab single panel directory listing</li>
   <li>navigation with vi-like key bindings</li>
-  <li>file opening with $PAGER or $EDITOR</li>
-  <li>open $SHELL in the current directory</li>
+  <li>file opening with <tt>$PAGER</tt> or <tt>$EDITOR</tt></li>
+  <li>open <tt>$SHELL</tt> in the current directory</li>
   <li>create/rename/delete single files and directories</li>
   <li>copy/move/delete multiple files/directories</li>
 </ul>
@@ -52,10 +52,15 @@ right side of the panel.</p>
 <p>File browsers usually allow the user to open a file with an
 appropriate program. Rover is still very limited on this area. There
 are only two ways of opening a file: the key <tt>SPACE</tt> will
-invoke $PAGER and the key <tt>e</tt> will invoke $EDITOR. In both
-cases, Rover waits in the background until you exit the invoked
-program.</p>
+invoke <tt>$PAGER</tt> and the key <tt>e</tt> will invoke
+<tt>$EDITOR</tt>. In both cases, Rover waits in the background until
+you exit the invoked program.</p>
 <p><img src="rv03.gif" alt="rv03.gif" /></p>
+<p>Another handy feature is opening a shell in the current directory.
+This can be done with the key <tt>ENTER</tt>. Rover sets the
+environmental variable <tt>$RVSEL</tt> to the filename of the
+selected entry.</p>
+<p><img src="rv04.gif" alt="rv04.gif" /></p>
   </div>
   <div id="footer">
     &zeta;
