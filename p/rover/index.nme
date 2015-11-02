@@ -54,3 +54,9 @@ done with the key ##ENTER##. Rover sets the environmental variable ##$RVSEL## to
 the filename of the selected entry.
 
 {{rv04.gif}}
+
+Rover has some basic filesystem management commands. You can create a file with
+##n## or a directory with ##N##. The key ##R## lets you rename an entry. The key
+##D## lets you delete an entry after confirmation.
+
+{{rv05.gif}}
