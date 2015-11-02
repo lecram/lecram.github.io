@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+table.head, table.foot { width: 100%; }
+td.head-rtitle, td.foot-os { text-align: right; }
+td.head-vol { text-align: center; }
+table.foot td { width: 50%; }
+table.head td { width: 33%; }
+div.spacer { margin: 1em 0; }
+</style>
+<title>
+ROVER(1)</title>
+</head>
+<body>
+<div class="mandoc">
+<table class="head">
+<tbody>
+<tr>
+<td class="head-ltitle">
+ROVER(1)</td>
+<td class="head-vol">
+General Commands Manual</td>
+<td class="head-rtitle">
+ROVER(1)</td>
+</tr>
+</tbody>
+</table>
+<div class="section">
+<h1>NAME</h1> rover - file browser for the terminal</div>
+<div class="section">
+<h1>SYNOPSIS</h1> <b>rover</b> [ <b>-s</b>|<b>--save-cwd</b> <i>FILE</i>] [ <i>DIR</i> [<i>DIR</i> [<i>DIR</i> [...]]]]<div style="height: 0.00em;">
+&#160;</div>
+<b>rover</b>  <b>-h</b>|<b>--help</b><div style="height: 0.00em;">
+&#160;</div>
+<b>rover</b>  <b>-v</b>|<b>--version</b></div>
+<div class="section">
+<h1>DESCRIPTION</h1> Browse current working directory or the ones specified.</div>
+<div class="section">
+<h1>OPTIONS</h1><dl>
+<dt>
+<b>-s</b>, <b>--save-cwd</b></dt>
+<dd>
+write last visited path to <i>FILE</i> before exiting</dd>
+</dl>
+<dl>
+<dt>
+<b>-h</b>, <b>--help</b></dt>
+<dd>
+print help message and exit</dd>
+</dl>
+<dl>
+<dt>
+<b>-v</b>, <b>--version</b></dt>
+<dd>
+print program version and exit</dd>
+</dl>
+</div>
+<div class="section">
+<h1>CONCEPTS</h1><div class="subsection">
+<h2>TABS</h2> Rover is operated via a tabbed interface. At any given moment, one (and only one) tab is visible on the screen. There are always ten tabs in total, numbered from 0 to 9. The number of the tab currently visible is shown on the top right corner of the screen. To view a different tab, one just needs to press its corresponding number. Each tab has a  <b>current working directory</b> (<b>CWD</b>) associated to it, also shown on the top of the screen. The  <b>CWD</b> of the visible tab is changed as the user navigates through the file system.<div class="spacer">
+</div>
+It's also possible to set the <b>CWD</b> of tabs at Rover start-up by passing the desired paths as command-line arguments. The tab number 0 always starts at  <b>$HOME</b>. If more than nine directories are specified, only the first nine are used for tabs 1-9 and the rest is ignored. Tabs for which an invalid path were assigned will also start at  <b>$HOME</b>. Remaining tabs not specified on the command line start at the current working directory of the parent process.</div>
+<div class="subsection">
+<h2>ENTRIES</h2> An  <b>entry</b> is anything that may be found inside a directory in some file system. It may be a file, a directory, a link, a socket, a FIFO, etc. In its most basic usage, Rover will gather the list of entries inside the  <b>CWD</b> and present them on the screen, one per line.<div class="spacer">
+</div>
+There is always one (and only one) highlighted entry visible. This is both the  <b>cursor</b> location and the current <b>selection</b>. The highlighting moves as the user navigates the entry list with cursor commands. Simple operations, like entering a subdirectory or renaming a file, are done by first selecting the relevant entry and them issuing the appropriate command (see the  <b>COMMANDS</b> section). For commands that operate on more than one entry at once (batch commands), selection is not sufficient, since it's not possible to select more than one entry. Batch commands are performed on marked entries.</div>
+<div class="subsection">
+<h2>MARKS</h2> For some file operations, it is convenient to first  <b>mark</b> all entries that are to be processed, so that the appropriate command only needs to be issued once. For such purpose, Rover allows an arbitrary number of entries to be marked, with the limitation that they must be all in the same directory.<div class="spacer">
+</div>
+Unlike simple selection, the effect of marks is not constrained by visibility. This is so one can mark a number of entries in some directory, navigate to other directory, and then finally issue a copy or move command. Moreover, marks are shared over all tabs. This allows one to mark some entries in one tab that is pointed to the &quot;source&quot; directory of the operation and then issue the command on another tab that is pointed to the &quot;destination&quot; directory.</div>
+</div>
+<div class="section">
+<h1>COMMANDS</h1><dl>
+<dt>
+<b>q</b></dt>
+<dd>
+Quit rover.</dd>
+</dl>
+<dl>
+<dt>
+<b>j/k</b></dt>
+<dd>
+Move cursor down/up.</dd>
+</dl>
+<dl>
+<dt>
+<b>J/K</b></dt>
+<dd>
+Move cursor down/up 10 lines.</dd>
+</dl>
+<dl>
+<dt>
+<b>g/G</b></dt>
+<dd>
+Move cursor to top/bottom of listing.</dd>
+</dl>
+<dl>
+<dt>
+<b>l</b></dt>
+<dd>
+Enter selected directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>h</b></dt>
+<dd>
+Go to parent directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>H</b></dt>
+<dd>
+Go to <b>$HOME</b> directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>r</b></dt>
+<dd>
+Refresh directory listing.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;RETURN&gt;</b></dt>
+<dd>
+Open <b>$SHELL</b> on the current directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;SPACE&gt;</b></dt>
+<dd>
+Open <b>$PAGER</b> with the selected file.</dd>
+</dl>
+<dl>
+<dt>
+<b>e</b></dt>
+<dd>
+Open <b>$EDITOR</b> with the selected file.</dd>
+</dl>
+<dl>
+<dt>
+<b>/</b></dt>
+<dd>
+Start incremental search.</dd>
+</dl>
+<dl>
+<dt>
+<b>f/d/s</b></dt>
+<dd>
+Toggle file/directory/hidden listing.</dd>
+</dl>
+<dl>
+<dt>
+<b>n/N</b></dt>
+<dd>
+Create new file/directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>R</b></dt>
+<dd>
+Rename selected file or directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>D</b></dt>
+<dd>
+Delete selected file or (empty) directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>m</b></dt>
+<dd>
+Toggle mark on the selected entry.</dd>
+</dl>
+<dl>
+<dt>
+<b>M</b></dt>
+<dd>
+Toggle mark on all visible entries.</dd>
+</dl>
+<dl>
+<dt>
+<b>a</b></dt>
+<dd>
+Mark all visible entries.</dd>
+</dl>
+<dl>
+<dt>
+<b>X/C/V</b></dt>
+<dd>
+Delete/copy/move all marked entries.</dd>
+</dl>
+<dl>
+<dt>
+<b>0-9</b></dt>
+<dd>
+Change tab.</dd>
+</dl>
+</div>
+<div class="section">
+<h1>LINE EDITING</h1> Some commands will prompt for an input string. For example, in order to rename a file, the user must supply the new name. This string will appear at the bottom of the screen and must be edited interactively using the keyboard. Printable keys will insert characters at the cursor position. The following shortcuts are available for line editing:<dl>
+<dt>
+<b>&lt;TAB&gt;</b></dt>
+<dd>
+Finish editing and <b>cancel</b> command.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;RETURN&gt;</b></dt>
+<dd>
+Finish editing and <b>confirm</b> command.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;LEFT&gt;/&lt;RIGHT&gt;</b></dt>
+<dd>
+Move insertion cursor left/right.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;UP&gt;/&lt;DOWN&gt;</b></dt>
+<dd>
+Move insertion cursor to beginning/end of string.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;BACKSPACE&gt;</b></dt>
+<dd>
+Remove one character before cursor.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;DELETE&gt;</b></dt>
+<dd>
+Remove one character after cursor.</dd>
+</dl>
+<dl>
+<dt>
+<b>&lt;CONTROL&gt;+u</b></dt>
+<dd>
+Clear line (remove all characters).</dd>
+</dl>
+</div>
+<div class="section">
+<h1>ENVIRONMENT VARIABLES</h1><dl>
+<dt>
+<b>HOME</b></dt>
+<dd>
+Full path of the home directory.</dd>
+</dl>
+<dl>
+<dt>
+<b>PATH</b></dt>
+<dd>
+Colon-separated path list for program directories.</dd>
+</dl>
+<dl>
+<dt>
+<b>SHELL</b></dt>
+<dd>
+Name of shell program (e.g. <i>/bin/sh</i>).</dd>
+</dl>
+<dl>
+<dt>
+<b>PAGER</b></dt>
+<dd>
+Name of pager program (e.g. <i>less</i>).</dd>
+</dl>
+<dl>
+<dt>
+<b>EDITOR</b></dt>
+<dd>
+Name of editor program (e.g. <i>vim</i> or <i>emacs</i>).</dd>
+</dl>
+<dl>
+<dt>
+<b>RVSEL</b></dt>
+<dd>
+Rover writes the name of the selected entry to this variable before running a subprocess. This allows one to use the selection as part of an arbitrary command by first invoking a shell from Rover (see the  <b>COMMANDS</b> section) and then typing something like  <b>grep abc &quot;$RVSEL&quot;</b>.</dd>
+</dl>
+</div>
+<div class="section">
+<h1>CONFIGURATION</h1> If you want to change Rover key bindings or colors, you can edit the  <i>config.h</i> file in the source distribution and recompile the program. Rover will not use or create any external file during its execution, except when asked to do so by user commands.</div>
+<div class="section">
+<h1>NOTES</h1>  <b>Important</b>: Currently, Rover never asks for confirmation before overwriting existing files while copying/moving marked entries. Please be careful to not accidentally lose your data.</div>
+<div class="section">
+<h1>LINKS</h1> Rover homepage: &lt;https://github.com/lecram/rover&gt;.</div>
+<div class="section">
+<h1>SEE ALSO</h1>  <b>mc(1)</b>, <b>vifm(1)</b>, <b>ranger(1)</b></div>
+<table class="foot">
+<tr>
+<td class="foot-date">
+rover-0.4.0</td>
+<td class="foot-os">
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
+

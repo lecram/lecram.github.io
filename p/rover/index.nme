@@ -1,7 +1,8 @@
 = Rover -- simple file browser for the terminal
 
 
-Rover is a small file browser that aims to be simple, fast and portable.
+[[https://github.com/lecram/rover | Rover]] is a small file browser that aims to
+be simple, fast and portable.
 
 Feature overview:
 
@@ -72,3 +73,5 @@ different tab for each location, so that we don't need to navigate back and
 forth multiple times.
 
 {{rv06.gif}}
+
+For more information on Rover usage, see [[rover.1.html | rover.1]].
