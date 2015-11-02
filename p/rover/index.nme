@@ -60,3 +60,15 @@ Rover has some basic filesystem management commands. You can create a file with
 ##D## lets you delete an entry after confirmation.
 
 {{rv05.gif}}
+
+In order to move a bunch files around, we first need to mark all the entries
+with the key ##m## and navigate to the destination directory.
+Then we can press ##C##/##V## to copy/move the marked entries or ##X## to delete
+all of them.
+Rover will show the operation progress at the bottom.
+
+When moving files between different locations, it's often convenient to use a
+different tab for each location, so that we don't need to navigate back and
+forth multiple times.
+
+{{rv06.gif}}
