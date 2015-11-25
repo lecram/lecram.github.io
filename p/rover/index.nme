@@ -35,7 +35,7 @@ be used.
 ##/## starts an incremental search: entries are selected as you type the
 desired filename prefix.
 
-At the bottom-left corner, the number of entries on the current directory is
+At the bottom-right corner, the number of entries on the current directory is
 shown preceded by the number of the selected entry.
 This information is also shown graphically as a vertical scroll bar on the right
 side of the panel.
