@@ -13,7 +13,8 @@ Feature overview:
  * create/rename/delete single files and directories
  * copy/move/delete multiple files/directories
 
-Rover has a Terminal User Interface (TUI) designed to fit in a small window.
+Rover has a Terminal User Interface (TUI) designed to fit in a small terminal
+window.
 There are ten tabs, but only one is visible at each time, selected by keys
 ##0##-##9##.
 The number of the current active/visible tab is shown at the top-right corner.
@@ -35,7 +36,7 @@ be used.
 ##/## starts an incremental search: entries are selected as you type the
 desired filename prefix.
 
-At the bottom-right corner, the number of entries on the current directory is
+At the bottom-right corner, the number of entries in the current directory is
 shown preceded by the number of the selected entry.
 This information is also shown graphically as a vertical scroll bar on the right
 side of the panel.
@@ -62,10 +63,10 @@ Rover has some basic filesystem management commands. You can create a file with
 
 {{rv05.gif}}
 
-In order to move a bunch files around, we first need to mark all the entries
-with the key ##m## and navigate to the destination directory.
+In order to move a bunch of files/directories around, we first need to mark all
+of them with the key ##m## and navigate to the destination directory.
 Then we can press ##C##/##V## to copy/move the marked entries or ##X## to delete
-all of them.
+them.
 Rover will show the operation progress at the bottom.
 
 When moving files between different locations, it's often convenient to use a

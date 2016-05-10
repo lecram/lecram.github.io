@@ -13,7 +13,7 @@
   </div>
   <div id="content">
     <h1>Rover -- simple file browser for the terminal</h1>
-    <p id="timestamp">Last updated on 2015-11-02 17:44:42 -0200</p>
+    <p id="timestamp">Last updated on 2015-11-25 20:25:57 -0200</p>
 <p><a href="https://github.com/lecram/rover">Rover</a> is a small file browser that aims to be
 simple, fast and portable.</p>
 <p>Feature overview:</p>
@@ -27,8 +27,8 @@ simple, fast and portable.</p>
   <li>copy/move/delete multiple files/directories</li>
 </ul>
 <p>Rover has a Terminal User Interface (TUI) designed to fit in a
-small window. There are ten tabs, but only one is visible at each
-time, selected by keys <tt>0</tt>-<tt>9</tt>. The number of the
+small terminal window. There are ten tabs, but only one is visible at
+each time, selected by keys <tt>0</tt>-<tt>9</tt>. The number of the
 current active/visible tab is shown at the top-right corner. The
 starting path for each tab can be given as command-line arguments;
 unassigned tabs will start at the current working directory. The
@@ -44,7 +44,7 @@ cursor down/up, <tt>h</tt> goes to the parent directory and
 <tt>K</tt> &amp; <tt>/</tt> can be used. <tt>J</tt>/<tt>K</tt> moves
 10 entries down/up. <tt>/</tt> starts an incremental search: entries
 are selected as you type the desired filename prefix.</p>
-<p>At the bottom-right corner, the number of entries on the current
+<p>At the bottom-right corner, the number of entries in the current
 directory is shown preceded by the number of the selected entry. This
 information is also shown graphically as a vertical scroll bar on the
 right side of the panel.</p>
@@ -66,11 +66,11 @@ create a file with <tt>n</tt> or a directory with <tt>N</tt>. The key
 <tt>R</tt> lets you rename an entry. The key <tt>D</tt> lets you
 delete an entry after confirmation.</p>
 <p><img src="rv05.gif" alt="rv05.gif" /></p>
-<p>In order to move a bunch files around, we first need to mark all
-the entries with the key <tt>m</tt> and navigate to the destination
-directory. Then we can press <tt>C</tt>/<tt>V</tt> to copy/move the
-marked entries or <tt>X</tt> to delete all of them. Rover will show
-the operation progress at the bottom.</p>
+<p>In order to move a bunch of files/directories around, we first
+need to mark all of them with the key <tt>m</tt> and navigate to the
+destination directory. Then we can press <tt>C</tt>/<tt>V</tt> to
+copy/move the marked entries or <tt>X</tt> to delete them. Rover will
+show the operation progress at the bottom.</p>
 <p>When moving files between different locations, it's often
 convenient to use a different tab for each location, so that we don't
 need to navigate back and forth multiple times.</p>
