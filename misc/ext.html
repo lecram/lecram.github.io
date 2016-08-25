@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NPE</title>
+</head>
+<body>
+  Valor: <input type="text" id="value" onkeypress="keyPress(event);">
+  <input type="button" value="OK" onclick="process();"/>
+  <input type="checkbox" id="upper" onclick="process();">Maiúsculas</input>
+  <p id="result"></p>
+  <script type="text/javascript">
+  function ext(n) {
+    var upto19 = [
+      "zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete",
+      "oito", "nove", "dez", "onze", "doze", "treze", "quatorze",
+      "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"
+    ];
+    var tens = [
+      "vinte", "trinta", "quarenta", "cinquenta",
+      "sessenta", "setenta", "oitenta", "noventa"
+    ];
+    var hunds = [
+      "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos",
+      "seiscentos", "setecentos", "oitocentos", "novecentos"
+    ];
+    if (n < 20) {
+      return upto19[n];
+    } else if (n < 100) {
+      var q = Math.floor(n / 10);
+      var r = n % 10;
+      if (r == 0) {
+        return tens[q-2];
+      } else {
+        return tens[q-2] + " e " + upto19[r];
+      }
+    } else if (n == 100) {
+      return "cem";
+    } else if (n < 1000) {
+      var q = Math.floor(n / 100);
+      var r = n % 100;
+      if (r == 0) {
+        return hunds[q-1];
+      } else {
+        return hunds[q-1] + " e " + ext(r);
+      }
+    } else if (n < 1e6) {
+      var q = Math.floor(n / 1000);
+      var r = n % 1000;
+      if (r == 0) {
+        return ext(q) + " mil";
+      } else {
+        return ext(q) + " mil e " + ext(r);
+      }
+    }
+    return n.toString();
+  }
+
+  function padCents(cents) {
+    return (cents + "00").slice(0, 2);
+  }
+
+  function process() {
+    var val = document.getElementById("value").value.split(",").join(".");
+    var vals = val.split(".");
+    var units = ext(Number(vals[0]));
+    if (vals[1] && Number(vals[1]) > 0) {
+      var cents = ext(Number(padCents(vals[1])));
+      var res = units.toString() + " reais e " +
+                cents.toString() + " centavos";
+    } else {
+      var res = units.toString() + " reais";
+    }
+    if (document.getElementById("upper").checked) {
+      res = res.toUpperCase();
+    }
+    document.getElementById("result").innerHTML = res;
+  }
+
+  function keyPress(e) {
+    var key = e.keyCode || e.which;
+    if (key == 13) {
+      process();
+    }
+  }
+  </script>
+</body>
+</html>
