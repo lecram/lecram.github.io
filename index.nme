@@ -2,7 +2,22 @@
 
 == Projects
 
-* [[/p/rover/ | Rover]]
+* [[/p/rover/ | rover]]
+-- simple file browser for the terminal
+* [[https://github.com/lecram/congif | congif]]
+-- convert script(1) output to GIF
+* [[https://github.com/lecram/rad | rad]]
+-- simplistic command-line calculator
+* [[https://github.com/lecram/minpkg | minpkg]]
+-- shell script to manage minimal packages
+* [[https://github.com/lecram/gifenc | gifenc]]
+-- small C99 GIF encoder
+* [[https://github.com/lecram/txt2mid | txt2mid]]
+-- generate MIDI files from plain text notation
+* [[https://github.com/lecram/srtsync | srtsync]]
+-- SubRip synchronization tool
+* [[https://github.com/lecram/mbf-util | mbf-util]]
+-- tools for MBF fonts
 
 == Cookbook
 
