@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SVG Basics</title>
+  <link href="/favicon.ico" rel="shortcut icon" />
+  <link href="/style.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="header">
+    <a id="main" href="https://lecram.github.io">lecram</a>
+    <br />
+  </div>
+  <div id="content">
+    <h1>SVG Basics</h1>
+    <p id="timestamp">Last updated on </p>
+<pre>
+&lt;svg&gt;
+  &lt;g transform=&quot;translate(-100,-50),scale(1.5)&quot;&gt;
+    &lt;text x=&quot;0&quot; y=&quot;100&quot; font-size=&quot;50&quot; fill=&quot;black&quot;&gt;Some Text&lt;/text&gt;
+    &lt;line x1=&quot;5&quot; y1=&quot;5&quot; x2=&quot;90&quot; y2=&quot;90&quot; stroke-width=&quot;2.5&quot; stroke=&quot;red&quot;/&gt;
+    &lt;rect x=&quot;60&quot; y=&quot;95&quot; height=&quot;30&quot; width=&quot;50&quot;/&gt;
+    &lt;circle cx=&quot;80&quot; cy=&quot;50&quot; r=&quot;40&quot;/&gt;
+    &lt;ellipse cx=&quot;80&quot; cy=&quot;110&quot; rx=&quot;75&quot; ry=&quot;105&quot; fill=&quot;#538&quot;/&gt;
+    &lt;path d=&quot;M 100 100 L 200 200&quot; stroke=&quot;black&quot;/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+</pre>
+<p>Most tags can also have the attribute `opacity` (default = 1).</p>
+<h2 id="h486">1. `&lt;line&gt;`</h2>
+<p>x1, y1, x2, y2: coordinates stroke: color stroke-width: width
+(default = 1) stroke-linecap: &quot;flat&quot; (default) or
+&quot;round&quot; stroke-dasharray: e.g. &quot;5,2,2,2&quot;</p>
+<p>See also the `&lt;marker&gt;` tag for arrows and such.</p>
+<h2 id="h703">2. `&lt;rect&gt;`</h2>
+<p>x, y, height, width: coordinates fill: fill color stroke*: border
+attributes</p>
+<p>See also the `&lt;gradient&gt;` tag for more complex rect fills.</p>
+<h2 id="h854">3. `&lt;circle&gt;`</h2>
+<p>cx, cy, r: coordinates Other attributes as in `&lt;rect&gt;`</p>
+<h2 id="h925">4. `&lt;ellipse&gt;`</h2>
+<p>cx, cy, rx, ry: coordinates Other attributes as in `&lt;rect&gt;`</p>
+<h2 id="h1002">5. `&lt;path&gt;`</h2>
+<p>In addition to `fill` and `stroke*` attributes, `&lt;path&gt;` has
+a string attribute `d` of arbitrary length that specifies a complex
+path.</p>
+<p>The path string (attr `d`) is a series of drawing commands as in
+turtle.</p>
+<p>RaphaelJS docs have good explanation of path:
+http://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.path</p>
+<p>M x,y: move to (x,y) L x,y: line to (x,y) Q x1,y1 x2,y2: quadratic
+Bézier curve to (x2,y2) with control (x1,y1) C x1,y1 x2,y2 x3,y3:
+cubic Bézier curve to (x3,y3) with controls (x1,y1) and (x2,y2) A rx
+ry XAR large-arc-flag sweep-flag x y: some kind of arc Z: close the
+path</p>
+<p>Some command letters can be omitted: &quot;M 0,0 50,50&quot; ==
+&quot;M 0,0 L 50,50&quot; &quot;M 0,0 50,50 0,50 z&quot; == &quot;M
+0,0 L 50,50 L 0,50 z&quot;</p>
+<h2 id="h1739">6. `&lt;g&gt;`</h2>
+<p>This tag is simply used to group elements. Grouped elements can
+inherit attributes from the `&lt;g&gt;` element:</p>
+<pre>
+&lt;g fill=&quot;blue&quot;&gt;
+  &lt;circle cx=&quot;80&quot; cy=&quot;50&quot; r=&quot;40&quot; fill=&quot;inherit&quot;/&gt;
+&lt;/g&gt;
+</pre>
+<h2 id="h1937">7. `&lt;use&gt;`</h2>
+<p>This tag allows code reuse:</p>
+<pre>
+&lt;g fill=&quot;blue&quot;&gt;
+  &lt;g id=&quot;MyGroup&quot;&gt;
+    &lt;circle cx=&quot;80&quot; cy=&quot;50&quot; r=&quot;40&quot; fill=&quot;inherit&quot;/&gt;
+  &lt;/g&gt;
+&lt;/g&gt;
+&lt;use xlink:href=&quot;MyGroup&quot; transform=&quot;translate(120,0)&quot; fill=&quot;green&quot;/&gt;
+</pre>
+  </div>
+  <div id="footer">
+    &zeta;
+  </div>
+</body>
+</html>
