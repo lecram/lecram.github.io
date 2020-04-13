@@ -13,61 +13,61 @@
 </svg>
 }}}
 
-Most tags can also have the attribute `opacity` (default = 1).
+Most tags can also have the attribute ##opacity## (default = 1).
 
-== `<line>`
+== ##<line>##
 
-x1, y1, x2, y2: coordinates
-stroke: color
-stroke-width: width (default = 1)
-stroke-linecap: "flat" (default) or "round"
+x1, y1, x2, y2: coordinates\\
+stroke: color\\
+stroke-width: width (default = 1)\\
+stroke-linecap: "flat" (default) or "round"\\
 stroke-dasharray: e.g. "5,2,2,2"
 
-See also the `<marker>` tag for arrows and such.
+See also the ##<marker>## tag for arrows and such.
 
-== `<rect>`
+== ##<rect>##
 
-x, y, height, width: coordinates
-fill: fill color
+x, y, height, width: coordinates\\
+fill: fill color\\
 stroke*: border attributes
 
-See also the `<gradient>` tag for more complex rect fills.
+See also the ##<gradient>## tag for more complex rect fills.
 
-== `<circle>`
+== ##<circle>##
 
-cx, cy, r: coordinates
-Other attributes as in `<rect>`
+cx, cy, r: coordinates\\
+Other attributes as in ##<rect>##
 
-== `<ellipse>`
+== ##<ellipse>##
 
-cx, cy, rx, ry: coordinates
-Other attributes as in `<rect>`
+cx, cy, rx, ry: coordinates\\
+Other attributes as in ##<rect>##
 
-== `<path>`
+== ##<path>##
 
-In addition to `fill` and `stroke*` attributes, `<path>` has a string
-attribute `d` of arbitrary length that specifies a complex path.
+In addition to ##fill## and ##stroke*## attributes, ##<path>## has a
+string attribute ##d## of arbitrary length that specifies a complex path.
 
-The path string (attr `d`) is a series of drawing commands as in turtle.
+The path string (attr ##d##) is a series of drawing commands as in turtle.
 
-RaphaelJS docs have good explanation of path:
-http://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.path
+RaphaelJS docs have good explanation of path:\\
+[[http://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.path]]
 
-M x,y: move to (x,y)
-L x,y: line to (x,y)
-Q x1,y1 x2,y2: quadratic Bézier curve to (x2,y2) with control (x1,y1)
-C x1,y1 x2,y2 x3,y3: cubic Bézier curve to (x3,y3) with controls (x1,y1) and (x2,y2)
-A rx ry XAR large-arc-flag sweep-flag x y: some kind of arc
+M x,y: move to (x,y)\\
+L x,y: line to (x,y)\\
+Q x1,y1 x2,y2: quadratic Bézier curve to (x2,y2) with control (x1,y1)\\
+C x1,y1 x2,y2 x3,y3: cubic Bézier curve to (x3,y3) with controls (x1,y1) and (x2,y2)\\
+A rx ry XAR large-arc-flag sweep-flag x y: some kind of arc\\
 Z: close the path
 
-Some command letters can be omitted:
-"M 0,0 50,50" == "M 0,0 L 50,50"
+Some command letters can be omitted:\\
+"M 0,0 50,50" == "M 0,0 L 50,50"\\
 "M 0,0 50,50 0,50 z" == "M 0,0 L 50,50 L 0,50 z"
 
-== `<g>`
+== ##<g>##
 
-This tag is simply used to group elements.
-Grouped elements can inherit attributes from the `<g>` element:
+This tag is simply used to group elements.\\
+Grouped elements can inherit attributes from the ##<g>## element:
 
 {{{
 <g fill="blue">
@@ -75,7 +75,7 @@ Grouped elements can inherit attributes from the `<g>` element:
 </g>
 }}}
 
-== `<use>`
+== ##<use>##
 
 This tag allows code reuse:
 

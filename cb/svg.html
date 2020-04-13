@@ -13,7 +13,7 @@
   </div>
   <div id="content">
     <h1>SVG Basics</h1>
-    <p id="timestamp">Last updated on </p>
+    <p id="timestamp">Last updated on 2020-04-13 15:30:07 -0300</p>
 <pre>
 &lt;svg&gt;
   &lt;g transform=&quot;translate(-100,-50),scale(1.5)&quot;&gt;
@@ -26,45 +26,50 @@
   &lt;/g&gt;
 &lt;/svg&gt;
 </pre>
-<p>Most tags can also have the attribute `opacity` (default = 1).</p>
-<h2 id="h486">1. `&lt;line&gt;`</h2>
-<p>x1, y1, x2, y2: coordinates stroke: color stroke-width: width
-(default = 1) stroke-linecap: &quot;flat&quot; (default) or
-&quot;round&quot; stroke-dasharray: e.g. &quot;5,2,2,2&quot;</p>
-<p>See also the `&lt;marker&gt;` tag for arrows and such.</p>
-<h2 id="h703">2. `&lt;rect&gt;`</h2>
-<p>x, y, height, width: coordinates fill: fill color stroke*: border
-attributes</p>
-<p>See also the `&lt;gradient&gt;` tag for more complex rect fills.</p>
-<h2 id="h854">3. `&lt;circle&gt;`</h2>
-<p>cx, cy, r: coordinates Other attributes as in `&lt;rect&gt;`</p>
-<h2 id="h925">4. `&lt;ellipse&gt;`</h2>
-<p>cx, cy, rx, ry: coordinates Other attributes as in `&lt;rect&gt;`</p>
-<h2 id="h1002">5. `&lt;path&gt;`</h2>
-<p>In addition to `fill` and `stroke*` attributes, `&lt;path&gt;` has
-a string attribute `d` of arbitrary length that specifies a complex
-path.</p>
-<p>The path string (attr `d`) is a series of drawing commands as in
-turtle.</p>
-<p>RaphaelJS docs have good explanation of path:
-http://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.path</p>
-<p>M x,y: move to (x,y) L x,y: line to (x,y) Q x1,y1 x2,y2: quadratic
-Bézier curve to (x2,y2) with control (x1,y1) C x1,y1 x2,y2 x3,y3:
-cubic Bézier curve to (x3,y3) with controls (x1,y1) and (x2,y2) A rx
-ry XAR large-arc-flag sweep-flag x y: some kind of arc Z: close the
-path</p>
-<p>Some command letters can be omitted: &quot;M 0,0 50,50&quot; ==
-&quot;M 0,0 L 50,50&quot; &quot;M 0,0 50,50 0,50 z&quot; == &quot;M
-0,0 L 50,50 L 0,50 z&quot;</p>
-<h2 id="h1739">6. `&lt;g&gt;`</h2>
-<p>This tag is simply used to group elements. Grouped elements can
-inherit attributes from the `&lt;g&gt;` element:</p>
+<p>Most tags can also have the attribute <tt>opacity</tt> (default =
+1).</p>
+<h2 id="h488">1. <tt>&lt;line&gt;</tt></h2>
+<p>x1, y1, x2, y2: coordinates<br /> stroke: color<br />
+stroke-width: width (default = 1)<br /> stroke-linecap:
+&quot;flat&quot; (default) or &quot;round&quot;<br />
+stroke-dasharray: e.g. &quot;5,2,2,2&quot;</p>
+<p>See also the <tt>&lt;marker&gt;</tt> tag for arrows and such.</p>
+<h2 id="h717">2. <tt>&lt;rect&gt;</tt></h2>
+<p>x, y, height, width: coordinates<br /> fill: fill color<br />
+stroke*: border attributes</p>
+<p>See also the <tt>&lt;gradient&gt;</tt> tag for more complex rect
+fills.</p>
+<h2 id="h876">3. <tt>&lt;circle&gt;</tt></h2>
+<p>cx, cy, r: coordinates<br /> Other attributes as in
+<tt>&lt;rect&gt;</tt></p>
+<h2 id="h953">4. <tt>&lt;ellipse&gt;</tt></h2>
+<p>cx, cy, rx, ry: coordinates<br /> Other attributes as in
+<tt>&lt;rect&gt;</tt></p>
+<h2 id="h1036">5. <tt>&lt;path&gt;</tt></h2>
+<p>In addition to <tt>fill</tt> and <tt>stroke*</tt> attributes,
+<tt>&lt;path&gt;</tt> has a string attribute <tt>d</tt> of arbitrary
+length that specifies a complex path.</p>
+<p>The path string (attr <tt>d</tt>) is a series of drawing commands
+as in turtle.</p>
+<p>RaphaelJS docs have good explanation of path:<br /> <a
+href="http://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.path">http://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.path</a></p>
+<p>M x,y: move to (x,y)<br /> L x,y: line to (x,y)<br /> Q x1,y1
+x2,y2: quadratic Bézier curve to (x2,y2) with control (x1,y1)<br /> C
+x1,y1 x2,y2 x3,y3: cubic Bézier curve to (x3,y3) with controls
+(x1,y1) and (x2,y2)<br /> A rx ry XAR large-arc-flag sweep-flag x y:
+some kind of arc<br /> Z: close the path</p>
+<p>Some command letters can be omitted:<br /> &quot;M 0,0 50,50&quot;
+== &quot;M 0,0 L 50,50&quot;<br /> &quot;M 0,0 50,50 0,50 z&quot; ==
+&quot;M 0,0 L 50,50 L 0,50 z&quot;</p>
+<h2 id="h1805">6. <tt>&lt;g&gt;</tt></h2>
+<p>This tag is simply used to group elements.<br /> Grouped elements
+can inherit attributes from the <tt>&lt;g&gt;</tt> element:</p>
 <pre>
 &lt;g fill=&quot;blue&quot;&gt;
   &lt;circle cx=&quot;80&quot; cy=&quot;50&quot; r=&quot;40&quot; fill=&quot;inherit&quot;/&gt;
 &lt;/g&gt;
 </pre>
-<h2 id="h1937">7. `&lt;use&gt;`</h2>
+<h2 id="h2009">7. <tt>&lt;use&gt;</tt></h2>
 <p>This tag allows code reuse:</p>
 <pre>
 &lt;g fill=&quot;blue&quot;&gt;
