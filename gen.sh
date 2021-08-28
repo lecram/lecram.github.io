@@ -6,7 +6,9 @@ TEMPLATE="template.html"
 NMEFLAGS="--headernum2 --xref --html --body"
 
 TITLE=`sed -n -e 's/^[= ]*\(.*\)[= ]*$/\1/' -e '1p' "$SOURCE"`
-if [ `git diff-files --quiet "$SOURCE"` ]
+git status -s "$SOURCE" > /dev/null
+git diff-files --quiet "$SOURCE"
+if [ $? -ne 0 ]
 then
   TIMESTAMP=`date -d "@$(stat -c '%Y' $SOURCE)" "+%F %T %z"`
 else
